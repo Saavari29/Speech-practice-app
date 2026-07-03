@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from app.database import Base, engine
 from app import models
+from api.difficulties import router as difficulties_router 
+
 
 app = FastAPI()
 
@@ -11,3 +13,4 @@ def read_root():
     return {"message": "Welcome to Speech Prsctice App"}
 
 
+app.include_router(difficulties_router)
