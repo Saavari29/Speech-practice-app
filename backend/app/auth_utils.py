@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from joes import jwt
+from jose import jwt
 from datetime import datetime, timedelta
 import os
 
@@ -15,7 +15,7 @@ def hash_password(password: str) -> str:
     return pwd_context.hash(password)
 
 def verify_password(plain_password: str, hashed_password:str)-> bool:
-    return ped_context.verify(plain_password, hashed_password)
+    return pwd_context.verify(plain_password, hashed_password)
 
 def create_access_token(data: dict)-> str:
     to_encode = data.copy()
