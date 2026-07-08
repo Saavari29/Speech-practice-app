@@ -6,6 +6,7 @@ from app.schemas import SpeechResponse
 from app.models import User
 from app.auth_utils import get_current_user
 from datetime import datetime
+from typing import List 
 
 
 router = APIRouter()
@@ -37,5 +38,10 @@ async def create_speech(
 
     return new_speech
 
+
+@router.get("/speeches", response_model= List[SpeechResponse])
+def get_speeches(db:Session= Depends(get_db), current_user: User= Depends(get_current_user)):
+    speeches= db.query(Speech).filter(Speech.user_id == current_user.id).all()
+    return speeches
 
 
