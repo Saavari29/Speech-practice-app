@@ -39,3 +39,17 @@ class SpeechResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class AnalysisResponse(BaseModel):
+    id : int
+    speech_id :int
+    transcript_highlighted : Optional [str]= None
+    filler_words_list : Optional [str]= None
+    filler_words_count : Optional [int]= None
+    pace_wpm : Optional [int]= None
+    relevance_score : Optional [int]= None
+    tone_consistency_score : Optional [int]= None
+    overall_feedback : Optional [str]= None
+    created_date : Optional [datetime]= None
+
+    class Config:
+        from_attributes= True

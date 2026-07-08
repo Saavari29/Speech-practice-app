@@ -8,6 +8,7 @@ from app import models
 from api.difficulties import router as difficulties_router 
 from api.auth import router as auth_router
 from api.speeches import router as speech_router
+from api.analysis import router as analysis_router
 
 
 app = FastAPI()
@@ -27,3 +28,5 @@ app.include_router(difficulties_router)
 app.include_router(auth_router)
 
 app.include_router(speech_router)
+
+app.include_router(analysis_router)
