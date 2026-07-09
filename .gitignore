@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 
 Thumbs.db
+
+uploads/*
+!uploads/.gitkeep

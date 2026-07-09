@@ -42,6 +42,7 @@ class Analysis(Base):
 
     id = Column(Integer, primary_key = True)
     speech_id = Column(Integer, ForeignKey("speeches.id"))
+    transcript = Column(Text, nullable= True)
     transcript_highlighted = Column(Text)
     filler_words_list = Column(Text)
     filler_words_count = Column(Integer)
