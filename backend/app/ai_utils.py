@@ -10,13 +10,10 @@ def analyze_speech(file_path, duration, topic):
     client = genai.Client(api_key=GEMINI_API_KEY)
 
     audio_file = client.files.upload(file=file_path)
-    print(f"File state: {audio_file.state}")
-    print(f"Full file object: {audio_file}")
 
     while audio_file.state.name == "PROCESSING":
       time.sleep(3)
       audio_file = client.files.get(name=audio_file.name)
-      print(f"New state: {audio_file.state.name}")
 
     prompt = f""" 
     You are a speech coach. Listen to this audio and respond ONLY in JSON format with no extra text, no markdown, no backticks.
