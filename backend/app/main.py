@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from app.database import Base, engine
 from app import models
@@ -12,6 +12,14 @@ from api.analysis import router as analysis_router
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 Base.metadata.create_all(bind= engine)
 
