@@ -12,7 +12,7 @@ function App(){
       <Route path= "/login" element= {<Login />} />
       <Route path= "/signup" element= {<Signup />} />
       <Route path= "/uploads" element= {<Uploads />} />
-      <Route path= "/analysis/:speechIs" element= {<Analysis />} />
+      <Route path= "/analysis/:speechId" element= {<Analysis />} />
 
     </Routes>
     </BrowserRouter>
