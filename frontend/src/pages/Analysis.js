@@ -9,7 +9,11 @@ function Analysis(){
     const {speechId} = useParams();
 
     useEffect(()=>{
-        API.get(`/analysis/${speechId}`)
+        API.get(`/analysis/${speechId}`,{
+            headers: {
+                 Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
         .then(analysis =>{
             setAnalysis(analysis.data)
         })
