@@ -6,13 +6,15 @@ import API from '../api/axios';
 function Uploads(){
 
     const [difficulties, setDifficulites]= useState([]);
-    const [selectedDifficulty, setSelectedDifficulites]= useState('');
+    const [selectedDifficulty, setSelectedDifficulty]= useState('');
     const [topic, setTopic]= useState('');
     const [recording, setRecording]= useState(false);
     const [audioBlob, setAudioBlob]= useState(null);
     const [error, setError]= useState('');
     const mediaRecorderRef = useRef(null);
+    const recordingStartRef = useRef(null);
     const navigate = useNavigate();
+    const [duration, setDuration] = useState(0);
 
     const startRecording =async()=> {
         const stream =await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -21,7 +23,9 @@ function Uploads(){
         mediaRecorderRef.current.ondataavailable = (e) => chunks.push(e.data);
         mediaRecorderRef.current.onstop = () => setAudioBlob(new Blob(chunks, { type: 'audio/webm' }));
         mediaRecorderRef.current.start();
+        recordingStartRef.current = Date.now();
         setRecording(true);
+        
     }
     const stopRecording = () => {
        mediaRecorderRef.current.stop();
@@ -31,26 +35,25 @@ function Uploads(){
     
     const handleSubmit = async () => {
      
-    const formData = new FormData();
-    
-  
-    formData.append('audio_file', audioBlob, 'audio.webm');
-    formData.append('difficulty_level_id', selectedDifficulty);
-    formData.append('topic', topic);
-   
-    try {
-        const response = await API.post('/speeches', formData, {
+      const formData = new FormData();
+      const duration = Math.round((Date.now() - recordingStartRef.current) / 1000);
+      formData.append('duration', duration);
+      formData.append('audio_file', audioBlob, 'audio.webm');
+      formData.append('difficulty_level_id', selectedDifficulty);
+      formData.append('topic', topic);
+      
+      try {
+            const response = await API.post('/speeches', formData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'multipart/form-data'
             }
-        });
-        
-        navigate(`/analysis/${response.data.id}`);
-    } catch (err) {
-       
-        setError('Failed to submit speech');
-    }
+         });
+         
+          navigate(`/analysis/${response.data.id}`);
+        } catch (err) {
+          setError('Failed to submit speech');
+        }
 }
 
 
@@ -64,7 +67,7 @@ function Uploads(){
         .catch(error =>{
             console.log(error)
         })
-
+        
         const topics = ["My favourite holiday", "A person who inspires me", 
         "Technology in daily life", "A challenge I overcame", "My hometown"];
         const randomTopic = topics[Math.floor(Math.random() * topics.length)];
