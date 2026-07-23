@@ -75,8 +75,7 @@ async def create_speech(
         
 
 
-    except Exception as e:
-        print(f"AI ERROR: {e}")  
+    except Exception as e: 
         raise HTTPException(
             status_code= 500,
             detail= "Speech saved but AI analysis failed. Please try again."

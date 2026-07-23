@@ -18,8 +18,7 @@ function Signup(){
       navigate('/uploads');
 
    }catch(err){
-    setError('email already exists');
-
+      setError('email already exists');
    }
   }
 

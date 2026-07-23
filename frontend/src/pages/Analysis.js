@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react';
-import {useParams, useNavigate} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import API from '../api/axios';
 
 function Analysis(){
 
 
     const [analysis, setAnalysis] = useState(null);
+    const [error, setError]= useState('');
     const {speechId} = useParams();
 
     useEffect(()=>{
@@ -14,14 +15,15 @@ function Analysis(){
                  Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
-        .then(analysis =>{
-            setAnalysis(analysis.data)
+        .then(response =>{
+            setAnalysis(response.data)
         })
         .catch(error => {
-            console.log(error)
+            setError('Failed to load analysis. Please try again.');
         })
     }, []);
 
+    if (error) return <p style={{color: 'red'}}>{error}</p>;
     if (!analysis) return <p>Loading...</p>;
 
     return (

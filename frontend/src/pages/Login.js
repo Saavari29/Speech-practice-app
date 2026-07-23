@@ -16,7 +16,6 @@ function Login(){
       navigate('/uploads');
    }catch(err){
     setError('Invalid email or password');
-
    }
   };
 

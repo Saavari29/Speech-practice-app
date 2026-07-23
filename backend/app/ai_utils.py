@@ -9,11 +9,17 @@ def analyze_speech(file_path, duration, topic):
     GEMINI_API_KEY= os.getenv("GEMINI_API_KEY")
     client = genai.Client(api_key=GEMINI_API_KEY)
 
-    audio_file = client.files.upload(file=file_path)
+    audio_file = client.files.upload(
+      file=file_path,
+      config={"mime_type": "audio/webm"}
+      )
 
     while audio_file.state.name == "PROCESSING":
       time.sleep(3)
       audio_file = client.files.get(name=audio_file.name)
+    if audio_file.state.name == "FAILED":
+      raise ValueError("File upload to Gemini failed")
+  
 
     prompt = f""" 
     You are a speech coach. Listen to this audio and respond ONLY in JSON format with no extra text, no markdown, no backticks.
