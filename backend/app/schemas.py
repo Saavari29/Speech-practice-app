@@ -25,6 +25,7 @@ class UserLoginRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
+    name : str
     
 class SpeechResponse(BaseModel):
     id : int

@@ -5,6 +5,7 @@ import Uploads from './pages/Uploads';
 import Analysis from './pages/Analysis';
 import History from './pages/History';
 import Layout from "./components/Layout";
+import Dashboard from './pages/Dashboard';
 
 function App(){
   return(
@@ -16,6 +17,7 @@ function App(){
       <Route path= "/uploads" element= {<Layout> <Uploads/></Layout>} />
       <Route path= "/analysis/:speechId" element= {<Layout> <Analysis/></Layout>} />
       <Route path="/history" element={<Layout><History/></Layout>} />
+      <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
 
     </Routes>
     </BrowserRouter>

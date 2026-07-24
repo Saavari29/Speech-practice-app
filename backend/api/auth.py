@@ -29,7 +29,7 @@ def signup(user_data: UserCreateRequest, db:Session= Depends(get_db)):
     
       token = create_access_token({"user_id": new_user.id})
     
-      return {"access_token": token, "token_type": "bearer"}
+      return {"access_token": token, "token_type": "bearer", "name": new_user.name}
 
 @router.post("/auth/login", response_model= TokenResponse)
 def login(user_data: UserLoginRequest,db:Session= Depends(get_db)):
@@ -43,6 +43,6 @@ def login(user_data: UserLoginRequest,db:Session= Depends(get_db)):
 
 
   token =create_access_token({"user_id": user_exists.id})
-  return{"access_token": token, "token_type": "bearer"}
+  return {"access_token": token, "token_type": "bearer", "name": user_exists.name}
 
 

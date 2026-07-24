@@ -26,7 +26,7 @@ function History(){
         <div className="history-page">
             <h1>Speech History</h1>
             <div className="speech-list">
-                {speechlist.map((speech, index) => (
+                {speechlist.slice().reverse().map((speech, index) => (
                     <div className="speech-card" key={speech.id} style={{
                         borderLeft: `5px solid ${index % 3 === 0 ? 'var(--yellow)' : index % 3 === 1 ? 'var(--pink)' : 'var(--green)'}`
                     }}>

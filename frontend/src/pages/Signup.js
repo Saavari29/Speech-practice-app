@@ -1,63 +1,65 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import API from '../api/axios';
-
-
+import './Auth.css';
 
 function Signup(){
-  const [name, setName]= useState('');
-  const [email,setEmail]= useState('');
-  const [password,setPassword]= useState('');
-  const [error,setError]= useState('');
-  const navigate = useNavigate();
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-  const handleSignup= async() =>{
-   try{
-      const response= await API.post('/auth/signup',{name,email,password});
-      localStorage.setItem('token',response.data.access_token);
-      navigate('/uploads');
+    const handleSignup = async () => {
+        try {
+            const response = await API.post('/auth/signup', {name, email, password});
+            localStorage.setItem('token', response.data.access_token);
+            localStorage.setItem('name', response.data.name);
+            navigate('/uploads');
+        } catch(err) {
+            setError('Email already exists');
+        }
+    };
 
-   }catch(err){
-      setError('email already exists');
-   }
-  }
+    return (
+        <div className="auth-page">
+            <div className="auth-card">
+                <p className="auth-app-name">🎙 SpeechApp</p>
+                <h1 className="auth-title">Create account</h1>
+                <p className="auth-subtitle">Start practising your speeches today</p>
 
-  return(
-   <div>
-      <input
-      type= "name"
-      placeholder= "Name"
-      value={name}
-      onChange={(e)=> setName(e.target.value)}
-      />
+                <input
+                    className="auth-input"
+                    type="text"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <input
+                    className="auth-input"
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input
+                    className="auth-input"
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-      <br />
+                <button className="auth-btn" onClick={handleSignup}>Sign up</button>
 
-      <input
-      type="email"
-      placeholder="Email"
-      value={email}
-      onChange={(e)=> setEmail(e.target.value)}
-      />
+                {error && <p className="auth-error">{error}</p>}
 
-      <br />
-
-      <input
-      type= "password"
-      placeholder= "Password"
-      value={password}
-      onChange={(e)=> setPassword(e.target.value)}
-      />
-
-      <br />
-
-      <button onClick={handleSignup}>Signup</button>
-      {error && <p style={{color:'red'}}>{error}</p>}
-      <p>Already have an account? <a href="/login">Login</a></p>
-
-
-   </div>
-  )
+                <p className="auth-link">
+                    Already have an account? <a href="/login">Log in</a>
+                </p>
+            </div>
+        </div>
+    );
 }
 
 export default Signup;
